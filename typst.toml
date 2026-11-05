@@ -1,0 +1,7 @@
+[package]
+name = "grid-layout"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Hüseyin Kartal"]
+license = "MIT"
+description = "Reusable grid layout utilities for Typst."
