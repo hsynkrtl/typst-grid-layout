@@ -22,7 +22,12 @@
 }
 
 /// Activate a layout, or deactivate it when called without an argument.
-#let layout(spec: none) = active-layout.update(spec)
+#let layout(..args) = {
+  let positional = args.pos()
+  assert(positional.len() <= 1, message: "layout() accepts at most one positional argument.")
+  assert(args.named().len() == 0, message: "layout() does not accept named arguments.")
+  active-layout.update(if positional.len() == 0 { none } else { positional.at(0) })
+}
 
 /// Start a new cell in the current paragraph.
 ///
