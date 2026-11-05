@@ -3,11 +3,13 @@
 #let compact-s = grid(
   columns: 5,
   column-gutter: 6pt,
+  debug: true,
 )
 
 #let entries = grid(
   columns: (0.7fr, 1fr, 1.5fr, 3fr, 1fr, 1fr),
   column-gutter: 8pt,
+  debug: true,
 )
 
 #layout(entries)
@@ -54,6 +56,7 @@ ID
 #let contact = grid(
   columns: (1fr, 2fr, 1fr, 2fr),
   column-gutter: 10pt,
+  debug: true,
 )
 
 #layout(contact)
