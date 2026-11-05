@@ -10,15 +10,12 @@
 ///
 /// - columns: Number of equally sized columns or an array of track sizes.
 /// - column-gutter: Space between columns.
-/// - row-gutter: Space between rows.
 #let grid(
   columns,
   column-gutter: 0pt,
-  row-gutter: 0pt,
 ) = (
   columns: columns,
   column-gutter: column-gutter,
-  row-gutter: row-gutter,
 )
 
 /// Activate a layout, or deactivate it when called without an argument.
@@ -76,7 +73,6 @@
   native-grid(
     columns: spec.columns,
     column-gutter: spec.column-gutter,
-    row-gutter: spec.row-gutter,
     ..cells,
   )
 }
