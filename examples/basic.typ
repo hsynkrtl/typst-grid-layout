@@ -61,7 +61,7 @@ ID
 Name
 #col() Hüseyin Kartal
 #col() E-mail
-#col() huseyin.kartal@example.com
+#col() huseyin.kartal\@example.com
 
 Street
 #col() Apprichstraße 18, 86199 Augsburg
