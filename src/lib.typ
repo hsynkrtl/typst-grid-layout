@@ -11,12 +11,15 @@
 /// - columns: Number of equally sized columns or an array of track sizes.
 /// - column-gutter: Space between columns.
 #let grid(
-  columns,
+  columns: none,
   column-gutter: 0pt,
-) = (
-  columns: columns,
-  column-gutter: column-gutter,
-)
+) = {
+  assert(columns != none, message: "The `columns` argument is required.")
+  (
+    columns: columns,
+    column-gutter: column-gutter,
+  )
+}
 
 /// Activate a layout, or deactivate it when called without an argument.
 #let layout(spec: none) = active-layout.update(spec)
