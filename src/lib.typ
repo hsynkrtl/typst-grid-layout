@@ -17,8 +17,24 @@
   debug: false,
 ) = {
   assert(columns != none, message: "The `columns` argument is required.")
+
+  // The public API accepts an integer as a column count, while native Typst
+  // grids expect a track-size array. Expand counts into equally sized tracks.
+  let tracks = if type(columns) == int {
+    assert(columns > 0, message: "The column count must be greater than zero.")
+    let tracks = ()
+    for _ in range(columns) {
+      tracks.push(1fr)
+    }
+    tracks
+  } else {
+    assert(type(columns) == array, message: "`columns` must be a positive integer or an array of track sizes.")
+    assert(columns.len() > 0, message: "The `columns` array must not be empty.")
+    columns
+  }
+
   (
-    columns: columns,
+    columns: tracks,
     column-gutter: column-gutter,
     debug: debug,
   )
