@@ -41,15 +41,16 @@ First  #col()  Second  #col()  Third  #col()  Fourth  #col()  Fifth
 
 ## Semantics
 
-- Every paragraph while a layout is active becomes one native Typst grid.
+- Every paragraph while a layout is active becomes one full-width native Typst grid.
 - The content before the first `col()` is the first cell.
 - Each `col()` starts another cell; `span` defaults to `1`.
 - A paragraph without `col()` is rendered as a single-cell grid.
 - Headings are not transformed.
 - `grid(columns: 5)` creates five equally sized columns. An array such as `(1fr, 2fr, 2fr)` defines individual track sizes.
+- Each paragraph is a separate grid, but specifying full width ensures the same track proportions align across rows when they share the same layout configuration.
 
 ## Prototype limitations
 
-Each paragraph is currently rendered as a separate native grid rather than as a row in one shared grid. Consequently, row-level grid settings and cross-row track sizing are not implemented yet. Column sizing is calculated independently for each paragraph.
+Rows are separate grids, so row-level settings and content-driven cross-row track sizing are not implemented. Cell contents also need to fit within the configured columns and spans.
 
 The example in [examples/basic.typ](examples/basic.typ) demonstrates the intended syntax.

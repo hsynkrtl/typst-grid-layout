@@ -70,7 +70,7 @@
   stroke: if debug { 1pt + red } else { none },
 )
 
-/// Split a paragraph body at col() markers and create native grid cells.
+/// Split a paragraph body at col() markers and create a full-width native grid.
 #let make-row(body, spec) = {
   let children = if body.has("children") {
     body.children
@@ -97,6 +97,7 @@
   native-grid(
     columns: spec.columns,
     column-gutter: spec.column-gutter,
+    width: 100%,
     ..cells,
   )
 }
