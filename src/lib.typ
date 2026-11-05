@@ -46,6 +46,13 @@
 
 #let is-column-marker(item) = item.func() == metadata and item.has("value") and type(item.value) == dictionary and item.value.at("kind", default: none) == "typst-grid-layout.column"
 
+/// Create a grid cell with optional debug border.
+#let make-cell(body, span, debug) = native-grid.cell(
+  body,
+  colspan: span,
+  stroke: if debug { 1pt + red } else { none },
+)
+
 /// Split a paragraph body at col() markers and create native grid cells.
 #let make-row(body, spec) = {
   let children = if body.has("children") {
@@ -60,10 +67,7 @@
 
   for child in children {
     if is-column-marker(child) {
-      cells.push(native-grid.cell(
-        current.join(),
-        colspan: current-span,
-      ))
+      cells.push(make-cell(current.join(), current-span, spec.debug))
       current = ()
       current-span = child.value.span
     } else {
@@ -71,15 +75,11 @@
     }
   }
 
-  cells.push(native-grid.cell(
-    current.join(),
-    colspan: current-span,
-  ))
+  cells.push(make-cell(current.join(), current-span, spec.debug))
 
   native-grid(
     columns: spec.columns,
     column-gutter: spec.column-gutter,
-    stroke: if spec.debug { 0.5pt + red } else { none },
     ..cells,
   )
 }
