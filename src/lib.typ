@@ -46,24 +46,13 @@
 
 #let is-column-marker(item) = item.func() == metadata and item.has("value") and type(item.value) == dictionary and item.value.at("kind", default: none) == "typst-grid-layout.column"
 
-/// Create a grid cell with an optional visible debug container.
-#let make-cell(body, span, debug) = {
-  let content = if debug {
-    block(
-      width: 100%,
-      inset: 2pt,
-      stroke: 1pt + red,
-      body,
-    )
-  } else {
-    body
-  }
-
-  native-grid.cell(
-    content,
-    colspan: span,
-  )
-}
+/// Create a grid cell with an optional visible debug border.
+#let make-cell(body, span, debug) = native-grid.cell(
+  body,
+  colspan: span,
+  inset: if debug { 2pt } else { auto },
+  stroke: if debug { 1pt + red } else { none },
+)
 
 /// Split a paragraph body at col() markers and create native grid cells.
 #let make-row(body, spec) = {
