@@ -10,14 +10,17 @@
 ///
 /// - columns: Number of equally sized columns or an array of track sizes.
 /// - column-gutter: Space between columns.
+/// - debug: Draw cell borders to inspect the grid structure.
 #let grid(
   columns: none,
   column-gutter: 0pt,
+  debug: false,
 ) = {
   assert(columns != none, message: "The `columns` argument is required.")
   (
     columns: columns,
     column-gutter: column-gutter,
+    debug: debug,
   )
 }
 
@@ -76,6 +79,7 @@
   native-grid(
     columns: spec.columns,
     column-gutter: spec.column-gutter,
+    stroke: if spec.debug { 0.5pt + red } else { none },
     ..cells,
   )
 }
