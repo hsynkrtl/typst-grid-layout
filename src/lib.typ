@@ -34,10 +34,10 @@
 }
 
 #let is-column-marker(item) = {
-  item.func() == metadata
-    and item.has("value")
-    and type(item.value) == dictionary
-    and item.value.at("kind", default: none) == "typst-grid-layout.column"
+  item.func() == metadata and
+    item.has("value") and
+    type(item.value) == dictionary and
+    item.value.at("kind", default: none) == "typst-grid-layout.column"
 }
 
 /// Split a paragraph body at col() markers and create native grid cells.
