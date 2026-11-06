@@ -1,7 +1,7 @@
 // Reusable grid layouts for Typst.
 //
 // A layout is a configuration value. Activating it transforms each paragraph
-// into one native Typst grid row. col() marks the start of the next cell.
+// into a native Typst grid row. col() marks the start of the next cell.
 
 #let native-grid = grid
 #let active-layout = state("typst-grid-layout.active", none)
@@ -54,13 +54,12 @@
 /// span controls how many grid columns the new cell occupies.
 #let col(span: 1) = {
   assert(span >= 1, message: "A cell span must be at least 1.")
-  metadata((
-    kind: "typst-grid-layout.column",
-    span: span,
-  ))
+  hide("typst-grid-layout-column:" + str(span))
 }
 
-#let is-column-marker(item) = item.func() == metadata and item.has("value") and type(item.value) == dictionary and item.value.at("kind", default: none) == "typst-grid-layout.column"
+#let column-marker-prefix = "typst-grid-layout-column:"
+#let is-column-marker(item) = item.has("child") and item.child.has("text") and item.child.text.starts-with(column-marker-prefix)
+#let column-marker-span(item) = int(item.child.text.replace(column-marker-prefix, ""))
 
 /// Create a grid cell with an optional visible debug border.
 #let make-cell(body, span, debug) = native-grid.cell(
@@ -70,14 +69,13 @@
   stroke: if debug { 1pt + red } else { none },
 )
 
-/// Split a paragraph body at col() markers and create a full-width native grid.
+/// Split a paragraph body at col() markers and create a native grid row.
 #let make-row(body, spec) = {
   let children = if body.has("children") {
     body.children
   } else {
     (body,)
   }
-
   let cells = ()
   let current = ()
   let current-span = 1
@@ -86,7 +84,7 @@
     if is-column-marker(child) {
       cells.push(make-cell(current.join(), current-span, spec.debug))
       current = ()
-      current-span = child.value.span
+      current-span = column-marker-span(child)
     } else {
       current.push(child)
     }
@@ -97,17 +95,18 @@
   native-grid(
     columns: spec.columns,
     column-gutter: spec.column-gutter,
-    width: 100%,
     ..cells,
   )
 }
 
-// Show rules provide the context required to read the active state.
-#show par: paragraph => context {
-  let spec = active-layout.get()
-  if spec == none {
-    paragraph
-  } else {
-    make-row(paragraph.body, spec)
+#let apply(body) = {
+  show par: paragraph => context {
+    let spec = active-layout.at(paragraph.location())
+    if spec == none {
+      paragraph
+    } else {
+      make-row(paragraph.body, spec)
+    }
   }
+  body
 }

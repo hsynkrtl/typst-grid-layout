@@ -1,4 +1,6 @@
-#import "../src/lib.typ": grid, layout, col
+#import "../src/lib.typ": grid, layout, col, apply
+
+#show: apply
 
 #let compact-s = grid(
   columns: 5,
@@ -11,6 +13,13 @@
   column-gutter: 8pt,
   debug: true,
 )
+
+#let contact = grid(
+  columns: (1fr, 2fr, 1fr, 2fr),
+  column-gutter: 10pt,
+  debug: true,
+)
+
 
 #layout(entries)
 
@@ -51,13 +60,13 @@ ID
 #col() 2026
 #col() Paused
 
-= Contact details
+01 #col() 02 #col() 03 #col() 04 #col() 05 #col() 06 #col() 07 #col() 08 #col() 09 #col() 10
 
-#let contact = grid(
-  columns: (1fr, 2fr, 1fr, 2fr),
-  column-gutter: 10pt,
-  debug: true,
-)
+11 #col() 12 #col() 13 #col() 14 #col() 15 #col() 16 #col() 17 #col() 18 #col() 19 #col() 20
+
+21 #col(span: 2) 22 23 #col() 24 #col() 25 #col() 26 #col() 27 #col() 28 #col() 29 #col() 30
+
+= Contact details
 
 #layout(contact)
 
